@@ -11,34 +11,46 @@ function renderBoard() {
     sectionsElement.innerHTML = sections.map(section => {
         return `
         <div class="section" section-id="${section.id}">
-            <div class="title">${section.title}</div>
-            <div class="toolbar">
-                <button onclick="editSection('${section.id}')">Edit</button>
-                <button onclick="deleteSection('${section.id}')">Delete</button>
-                <button onclick="addTask('${section.id}')">Add a task</button>
+            <div class="title">
+                <div class="text">${section.title} ${section.tasks.length ? '(' + section.tasks.length + ')' : ''}</div>
+                <div class="toolbar">
+                    <button title="Add Task" class="add" onclick="addTask('${section.id}')"><i class="fas fa-plus"></i></button>
+                    <button title="Edit Section" class="edit" onclick="editSection('${section.id}')"><i class="far fa-edit"></i></button>
+                    <button title="Delete Section" class="delete" onclick="deleteSection('${section.id}')"><i class="far fa-trash-alt"></i></button>
+                </div>
             </div>
+           
             
 
             <div class="tasks">
 
-                <div class="dropzone" section-id="${section.id}">
+                <!-- <div class="dropzone" section-id="${section.id}">
                 DROP HERE
+                </div> -->
+
+                ${!section.tasks.length ? `
+                <div class="no-tasks task">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div>No Tasks</div>
                 </div>
+                `: ''}
 
                 ${section.tasks.map(task => {
             return `
                     <div class="task" task-id="${task.id}">
-                        <div class="title">${task.title}</div>
+                    
+                        <div class="title">
+                            <div class="text">${task.title}</div>
+                            <div class="toolbar">
+                                <button title="Edit Task" class="edit" onclick="editTask('${section.id}', '${task.id}')"><i class="far fa-edit"></i></button>
+                                <button title="Delete Task" class="delete" onclick="deleteTask('${section.id}', '${task.id}')"><i class="far fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+
                         <div class="description">${task.description}</div>
 
-                        <div class="toolbar">
-                            <button onclick="editTask('${section.id}', '${task.id}')">Edit</button>
-                            <button onclick="deleteTask('${section.id}', '${task.id}')">Delete</button>
-                        </div>
-
-                        <div class="handle" task-id="${task.id}" section-id="${section.id}">
-                            ...
-                        </div>
+                            <i task-id="${task.id}" section-id="${section.id}" class="handle fas fa-grip-horizontal"></i>
+            
                     </div>
                     `
         }).join("")}
@@ -164,16 +176,16 @@ function mouseDown(event) {
 
         // Listen for mouse move and mouse up
         document.addEventListener('mousemove', mouseMove)
-        document.addEventListener('mouseup', mouseUp);
-        document.addEventListener('mouseover', mouseOver)
+        document.addEventListener('mouseup', mouseUp)
     }
 }
 document.addEventListener('mousedown', mouseDown);
 
 function mouseMove(event) {
     // console.log("Dragging", event.x, event.y);
-    activeDragElement.style.top = event.y - activeDrag.height + 10 + "px";
+    activeDragElement.style.top = event.y - activeDrag.height - 2 + "px";
     activeDragElement.style.left = event.x - (activeDrag.width / 2) + "px";
+    // activeDragElement.style.transform = 'translateY(20px)'
     // console.log(activeDragElement);
 
 }
@@ -187,10 +199,9 @@ function mouseUp(event) {
     document.removeEventListener('mousemove', mouseMove);
     // document.removeEventListener('mousedown', mouseDown);
     document.removeEventListener('mouseup', mouseUp);
-    document.removeEventListener('mouseover', mouseOver);
 
-    // while (ele.className.includes())
-    if (lastMouseOverElement.hasAttribute('section-id')) {
+
+    if (event.target.hasAttribute('section-id')) {
         console.log("Correct place");
 
         let section = sections.find(x => x.id == activeDrag.section);
@@ -200,18 +211,12 @@ function mouseUp(event) {
         section.tasks = section.tasks.filter(x => x.id != activeDrag.task)
 
         // Add to where drag ended
-        let dropSection = lastMouseOverElement.getAttribute('section-id');
+        let dropSection = event.target.getAttribute('section-id');
         sections.find(x => x.id == dropSection).tasks.unshift(task)
 
-        // renderBoard();
+        renderBoard();
     }
-}
-let lastMouseOverElement
-function mouseOver(e) {
-    if (e.target.hasAttribute('section-id') && e.target.className.includes('dropzone'))
-        lastMouseOverElement = e.target;
 }
 
 // Remove select listener
 document.addEventListener('selectstart', e => { e.preventDefault() })
-
