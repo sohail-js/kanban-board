@@ -1,0 +1,51 @@
+/* SECTIONS */
+
+#sections {
+  display: flex;
+}
+
+.section {
+  width: 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-right: 10px;
+  min-height: 800px;
+}
+
+.section > .title {
+  font-weight: bold;
+  background-color: #ccc;
+  padding: 3px;
+  margin-bottom: 10px;
+}
+
+.section .toolbar {
+  margin-bottom: 15px;
+}
+
+.task {
+  border: 1px solid #ccc;
+  background: rgb(240, 240, 240);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.task .title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.task .handle {
+  width: 100%;
+  text-align: center;
+  cursor: all-scroll;
+}
+
+.dropzone {
+  text-align: center;
+  border: 2px dashed #ccc;
+  padding: 40px 10px;
+  margin-bottom: 15px;
+  color: #707070;
+  /* display: none; */
+}
