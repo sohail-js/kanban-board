@@ -1,5 +1,24 @@
+var defaultSections = [
+    {
+        id: 1,
+        title: 'New',
+        tasks: []
+    },
+    {
+        id: 2,
+        title: 'Active',
+        tasks: []
+    },
+    {
+        id: 3,
+        title: 'Done',
+        tasks: []
+    },
+];
 
-var sections = JSON.parse(localStorage.getItem('sections') || '[]');
+var sections = localStorage.getItem('kanban_sections');
+
+sections = sections ? JSON.parse(sections) : defaultSections;
 
 const sectionsElement = document.getElementById('sections');
 /**
@@ -14,9 +33,9 @@ function renderBoard() {
             <div class="title">
                 <div class="text">${section.title} ${section.tasks.length ? '(' + section.tasks.length + ')' : ''}</div>
                 <div class="toolbar">
-                    <button title="Add Task" class="add" onclick="addTask('${section.id}')"><i class="fas fa-plus"></i></button>
-                    <button title="Edit Section" class="edit" onclick="editSection('${section.id}')"><i class="far fa-edit"></i></button>
-                    <button title="Delete Section" class="delete" onclick="deleteSection('${section.id}')"><i class="far fa-trash-alt"></i></button>
+                    <button title="Add Task" class="add" onclick="addTask('${section.id}')"><i class="fa fa-plus"></i></button>
+                    <button title="Edit Section" class="edit" onclick="editSection('${section.id}')"><i class="fa fa-edit"></i></button>
+                    <button title="Delete Section" class="delete" onclick="deleteSection('${section.id}')"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
            
@@ -30,7 +49,7 @@ function renderBoard() {
 
                 ${!section.tasks.length ? `
                 <div class="no-tasks task">
-                    <i class="fas fa-exclamation-circle"></i>
+                    <i class="fa fa-exclamation-circle"></i>
                     <div>No Tasks</div>
                 </div>
                 `: ''}
@@ -42,14 +61,14 @@ function renderBoard() {
                         <div class="title">
                             <div class="text">${task.title}</div>
                             <div class="toolbar">
-                                <button title="Edit Task" class="edit" onclick="editTask('${section.id}', '${task.id}')"><i class="far fa-edit"></i></button>
-                                <button title="Delete Task" class="delete" onclick="deleteTask('${section.id}', '${task.id}')"><i class="far fa-trash-alt"></i></button>
+                                <button title="Edit Task" class="edit" onclick="editTask('${section.id}', '${task.id}')"><i class="fa fa-edit"></i></button>
+                                <button title="Delete Task" class="delete" onclick="deleteTask('${section.id}', '${task.id}')"><i class="fa fa-trash"></i></button>
                             </div>
                         </div>
 
                         <div class="description">${task.description}</div>
 
-                            <i task-id="${task.id}" section-id="${section.id}" class="handle fas fa-grip-horizontal"></i>
+                            <i task-id="${task.id}" section-id="${section.id}" class="handle fa fa-grip-horizontal"></i>
             
                     </div>
                     `
@@ -61,7 +80,7 @@ function renderBoard() {
     }).join("");
 
     // Update localStorage
-    localStorage.setItem('sections', JSON.stringify(sections))
+    localStorage.setItem('kanban_sections', JSON.stringify(sections))
 }
 
 /**
