@@ -5,7 +5,7 @@ body {
 
 .page-wrapper {
   max-width: 1100px;
-  margin: 50px auto;
+  margin: 20px auto;
 }
 
 /* SECTIONS */
@@ -13,6 +13,7 @@ body {
 #sections {
   display: flex;
   overflow-x: auto;
+  height: calc(100vh - 110px);
 }
 
 .add-section {
@@ -109,7 +110,9 @@ button {
 
 .no-tasks {
   text-align: center;
-  background: #fff;
+  background: #ffffff9c;
+  padding: 15px 10px;
+  border: 3px dashed #cccccc40;
 }
 .no-tasks i {
   font-size: 2rem;
@@ -120,9 +123,9 @@ button {
 .footer {
   position: fixed;
   bottom: 0;
-  padding: 15px;
-  background: #fff;
+  /* padding: 15px;
+  background: #fff; */
   border-radius: 50px;
   margin-bottom: 15px;
-  box-shadow: 1px 2px 5px 1px #ccc;
+  /* box-shadow: 1px 2px 5px 1px #ccc; */
 }

@@ -48,7 +48,7 @@ function renderBoard() {
                 </div> -->
 
                 ${!section.tasks.length ? `
-                <div class="no-tasks task">
+                <div class="no-tasks">
                     <i class="fa fa-exclamation-circle"></i>
                     <div>No Tasks</div>
                 </div>
@@ -68,7 +68,7 @@ function renderBoard() {
 
                         <div class="description">${task.description}</div>
 
-                            <i task-id="${task.id}" section-id="${section.id}" class="handle fa fa-grip-horizontal"></i>
+                            <i task-id="${task.id}" section-id="${section.id}" class="handle fa fa-grip-horizontal">...</i>
             
                     </div>
                     `
@@ -193,6 +193,8 @@ function mouseDown(event) {
         activeDragElement.style.position = 'absolute';
         activeDragElement.style.width = activeDrag.width - 20 + 'px';
 
+        mouseMove(event)
+
         // Listen for mouse move and mouse up
         document.addEventListener('mousemove', mouseMove)
         document.addEventListener('mouseup', mouseUp)
@@ -202,10 +204,12 @@ document.addEventListener('mousedown', mouseDown);
 
 function mouseMove(event) {
     // console.log("Dragging", event.x, event.y);
-    activeDragElement.style.top = event.y - activeDrag.height - 2 + "px";
-    activeDragElement.style.left = event.x - (activeDrag.width / 2) + "px";
+    activeDragElement.style.top = event.y + window.scrollY - activeDrag.height - 2 + "px";
+    activeDragElement.style.left = event.x + window.scrollX - (activeDrag.width / 2) + "px";
     // activeDragElement.style.transform = 'translateY(20px)'
     // console.log(activeDragElement);
+    // console.log(event.x, event.y);
+
 
 }
 
